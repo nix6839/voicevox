@@ -407,6 +407,10 @@ jobs:
         run: |
           npm run electron:build -- --prepackaged prepackage/
 
+      - name: Ad hoc code signing
+        if: endsWith(matrix.installer_artifact_name, '-dmg') # macOS
+        run: codesign --force --deep -s - prepackage/VOICEVOX.app
+
       - name: Build Electron (for macOS)
         if: endsWith(matrix.installer_artifact_name, '-dmg') # macOS
         env:
