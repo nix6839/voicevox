@@ -17,6 +17,8 @@ const __dirname = path.dirname(__filename);
 const isElectron = process.env.VITE_TARGET === "electron";
 const isBrowser = process.env.VITE_TARGET === "browser";
 
+const projectRoot = path.resolve(__dirname, "src");
+
 export default defineConfig((options) => {
   const packageName = process.env.npm_package_name;
   const env = loadEnv(options.mode, __dirname);
@@ -40,7 +42,7 @@ export default defineConfig((options) => {
     ? "inline"
     : false;
   return {
-    root: path.resolve(__dirname, "src"),
+    root: projectRoot,
     envDir: __dirname,
     build: {
       outDir: path.resolve(__dirname, "dist"),
@@ -84,8 +86,8 @@ export default defineConfig((options) => {
         cleanDistPlugin(),
         electron({
           entry: [
-            "./src/backend/electron/main.ts",
-            "./src/backend/electron/preload.ts",
+            path.join(projectRoot, "backend/electron/main.ts"),
+            path.join(projectRoot, "backend/electron/preload.ts"),
           ],
           // ref: https://github.com/electron-vite/vite-plugin-electron/pull/122
           onstart: ({ startup }) => {
